@@ -10,7 +10,6 @@
     "cover": "nyc _mocha \"test/**/*_test.js\" --recursive --exit",
     "lint": "eslint bin test",
     "lint:fix": "npm run lint -- --fix"
-
   },
   "repository": {
     "type": "git",
@@ -23,11 +22,11 @@
   },
   "homepage": "https://github.com/novalyezu/codebase-cqrs#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "confidence": "^4.0.2",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "generic-pool": "^3.7.1",
-    "hippie": "^0.5.2",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "kafka-node": "^5.0.0",
@@ -49,6 +48,7 @@
     "eslint": "^7.1.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-react": "^7.20.0",
+    "hippie": "^0.5.2",
     "istanbul": "^0.4.5",
     "mocha": "^7.2.0",
     "nyc": "^15.0.1",

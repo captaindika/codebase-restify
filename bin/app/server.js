@@ -3,7 +3,7 @@ const corsMiddleware = require('restify-cors-middleware');
 const project = require('../../package.json');
 const basicAuth = require('../auth/basic_auth_helper');
 const wrapper = require('../helpers/utils/wrapper');
-// const userHandler = require('../modules/user/handlers/api_handler');
+const userHandler = require('../modules/user/handlers/api_handler');
 const mongoConnectionPooling = require('../helpers/databases/mongodb/connection');
 
 function AppServer() {
@@ -39,7 +39,11 @@ function AppServer() {
   });
 
   // authenticated client can access the end point, place code bellow
-  // this.server.post('/users/v1/register', basicAuth.isAuthenticated, userHandler.registerUser);
+  this.server.post('/users/v1', basicAuth.isAuthenticated, userHandler.createUser);
+  this.server.get('/users/v1', basicAuth.isAuthenticated, userHandler.getUsers);
+  this.server.get('/users/v1/:userId', basicAuth.isAuthenticated, userHandler.getUser);
+  this.server.put('/users/v1/:userId', basicAuth.isAuthenticated, userHandler.updateUser);
+  this.server.del('/users/v1/:userId', basicAuth.isAuthenticated, userHandler.deleteUser);
 
   //Initiation
   mongoConnectionPooling.init();
