@@ -1,7 +1,7 @@
 {
   "name": "codebase-cqrs",
   "version": "1.0.0",
-  "description": "",
+  "description": "Codebase using CQRS pattern.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -15,7 +15,14 @@
     "type": "git",
     "url": "git+https://github.com/novalyezu/codebase-cqrs.git"
   },
-  "author": "",
+  "keywords": [
+    "codebase",
+    "boiler-plate",
+    "cqrs",
+    "nodejs",
+    "arkademy"
+  ],
+  "author": "Arkademy",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/novalyezu/codebase-cqrs/issues"
