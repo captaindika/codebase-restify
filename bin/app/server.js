@@ -4,6 +4,7 @@ const project = require('../../package.json');
 const basicAuth = require('../auth/basic_auth_helper');
 const wrapper = require('../helpers/utils/wrapper');
 const userHandler = require('../modules/user/handlers/api_handler');
+const addressHandler = require('../modules/address/handlers/api_handler');
 const mongoConnectionPooling = require('../helpers/databases/mongodb/connection');
 
 function AppServer() {
@@ -45,6 +46,12 @@ function AppServer() {
   this.server.put('/users/v1/update/:userId', basicAuth.isAuthenticated, userHandler.updateUser);
   this.server.del('/users/v1/:userId', basicAuth.isAuthenticated, userHandler.deleteUser);
 
+  // address
+  this.server.post('/addresses/v1', basicAuth.isAuthenticated, addressHandler.createAddress);
+  this.server.get('/addresses/v1', basicAuth.isAuthenticated, addressHandler.getAddresses);
+  this.server.get('/addresses/v1/:addressId', basicAuth.isAuthenticated, addressHandler.getAddress);
+  this.server.put('/addresses/v1/update/:addressId', basicAuth.isAuthenticated, addressHandler.updateAddress);
+  this.server.del('/addresses/v1/:addressId', basicAuth.isAuthenticated, addressHandler.deleteAddress);
   //Initiation
   mongoConnectionPooling.init();
 }
