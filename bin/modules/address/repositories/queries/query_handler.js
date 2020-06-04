@@ -19,6 +19,8 @@ const getAddress = async (data) => {
     const result = await address.getAdress(data);
     return result;
   };
+  const result = await getData();
+  return result;
 };
 
 module.exports = {
