@@ -16,7 +16,6 @@ class Address {
       return wrapper.error(new NotFoundError('Can\'t find addresses'));
     }
     const { data } = address;
-    data.map();
     logger.info(ctx, 'success', 'Get addresses success', data);
     return wrapper.data(data);
   }
