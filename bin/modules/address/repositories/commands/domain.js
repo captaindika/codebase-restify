@@ -42,7 +42,7 @@ class Address {
         postalCode: data.postalCode,
         subDistrict: data.subDistrict,
         district: data.district,
-        city: data.city,
+        city: data.city ,
         province: data.province
       }
     };

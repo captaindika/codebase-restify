@@ -16,7 +16,7 @@ const getAddresses = async () => {
 
 const getAddress = async (data) => {
   const getData = async () => {
-    const result = await address.getAdress(data);
+    const result = await address.getAddress(data);
     return result;
   };
   const result = await getData();
