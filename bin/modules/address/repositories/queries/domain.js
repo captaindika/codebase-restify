@@ -20,7 +20,7 @@ class Address {
     return wrapper.data(data);
   }
 
-  async getAdress(payload) {
+  async getAddress(payload) {
     const ctx = 'getAddress';
     const address = await this.query.findOneAddress({addressId: payload.addressId});
     if (address.err) {

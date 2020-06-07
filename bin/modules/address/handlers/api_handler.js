@@ -88,7 +88,7 @@ const deleteAddress = async (req, res) => {
 
   const sendResponse = async (result) => {
     (result.err) ? wrapper.response(res, 'fail', result, 'Delete address fail')
-      : wrapper.response(res, 'success', result, 'Delete address success', http.OK);
+      : wrapper.response(res, 'fail', result, 'Delete address success', http.OK);
   };
   sendResponse(await postRequest(validatePayload));
 };
