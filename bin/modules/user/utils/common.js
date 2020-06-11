@@ -22,7 +22,15 @@ const decryptHash = async (plainText, hash) => {
   }
 };
 
+const getOtp = async (digit) => {
+  let a = Math.floor(100000 + Math.random() * 900000);
+  a = String(a);
+  a = a.substring(0,digit);
+  return a;
+};
+
 module.exports = {
   generateHash,
-  decryptHash
+  decryptHash,
+  getOtp
 };

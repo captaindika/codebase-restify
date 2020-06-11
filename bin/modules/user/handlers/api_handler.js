@@ -7,6 +7,44 @@ const queryModel = require('../repositories/queries/query_model');
 const validator = require('../utils/validator');
 const { SUCCESS:http } = require('../../../helpers/http-status/status_code');
 
+const loginUser = async (req, res) => {
+  const payload = {
+    ...req.body
+  };
+  const validatePayload = validator.isValidPayload(payload, queryModel.loginUser);
+  const postRequest = async (result) => {
+    if (result.err) {
+      return result;
+    }
+    return queryHandler.loginUser(result.data);
+  };
+
+  const sendResponse = async (result) => {
+    (result.err) ? wrapper.response(res, 'fail', result, 'Login user fail')
+      : wrapper.response(res, 'success', result, 'Login user success', http.OK);
+  };
+  sendResponse(await postRequest(validatePayload));
+};
+
+const verifyOtpLogin = async (req, res) => {
+  const payload = {
+    ...req.body
+  };
+  const validatePayload = validator.isValidPayload(payload, queryModel.verifyOtpLogin);
+  const postRequest = async (result) => {
+    if (result.err) {
+      return result;
+    }
+    return queryHandler.verifyOtpLogin(result.data);
+  };
+
+  const sendResponse = async (result) => {
+    (result.err) ? wrapper.response(res, 'fail', result, 'Verify otp login user fail')
+      : wrapper.response(res, 'success', result, 'Verify otp login user success', http.OK);
+  };
+  sendResponse(await postRequest(validatePayload));
+};
+
 const getUsers = async (req, res) => {
   const postRequest = async () => {
     return queryHandler.getUsers();
@@ -95,6 +133,8 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
+  loginUser,
+  verifyOtpLogin,
   getUsers,
   getUser,
   createUser,
