@@ -37,9 +37,6 @@ describe('User Api Handler', () => {
   };
 
   describe('getUsers', () => {
-    it('should cover error validation', async () => {
-      await userHandler.getUsers(req, res);
-    });
     it('Should return error', async () => {
       sinon.stub(validator, 'isValidPayload').resolves({
         err: true,
