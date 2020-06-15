@@ -14,8 +14,14 @@ const verifyOtpLogin = joi.object({
   otp: joi.string().regex(/^[0-9]{4}$/).required()
 });
 
+const verifyOtpRegister = joi.object({
+  userId: joi.string().required(),
+  otp: joi.string().regex(/^[0-9]{4}$/).required()
+});
+
 module.exports = {
   getUser,
   loginUser,
-  verifyOtpLogin
+  verifyOtpLogin,
+  verifyOtpRegister,
 };

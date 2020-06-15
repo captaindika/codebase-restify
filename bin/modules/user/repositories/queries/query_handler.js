@@ -23,6 +23,15 @@ const verifyOtpLogin = async (data) => {
   return result;
 };
 
+const verifyOtpRegister = async (data) => {
+  const getData = async () => {
+    const result = await user.verifyOtpRegister(data);
+    return result;
+  };
+  const result = await getData();
+  return result;
+};
+
 const getUsers = async () => {
   const getData = async () => {
     const result = await user.getUsers();
@@ -44,6 +53,7 @@ const getUser = async (data) => {
 module.exports = {
   loginUser,
   verifyOtpLogin,
+  verifyOtpRegister,
   getUsers,
   getUser
 };

@@ -45,6 +45,25 @@ const verifyOtpLogin = async (req, res) => {
   sendResponse(await postRequest(validatePayload));
 };
 
+const verifyOtpRegister = async (req, res) => {
+  const payload = {
+    ...req.body
+  };
+  const validatePayload = validator.isValidPayload(payload, queryModel.verifyOtpRegister);
+  const postRequest = async (result) => {
+    if (result.err) {
+      return result;
+    }
+    return queryHandler.verifyOtpRegister(result.data);
+  };
+
+  const sendResponse = async (result) => {
+    (result.err) ? wrapper.response(res, 'fail', result, 'Verify otp register user fail')
+      : wrapper.response(res, 'success', result, 'Verify otp register success', http.OK);
+  };
+  sendResponse(await postRequest(validatePayload));
+};
+
 const getUsers = async (req, res) => {
   const postRequest = async () => {
     return queryHandler.getUsers();
@@ -135,6 +154,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   loginUser,
   verifyOtpLogin,
+  verifyOtpRegister,
   getUsers,
   getUser,
   createUser,

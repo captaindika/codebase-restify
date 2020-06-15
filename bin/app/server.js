@@ -6,7 +6,7 @@ const wrapper = require('../helpers/utils/wrapper');
 const userHandler = require('../modules/user/handlers/api_handler');
 const addressHandler = require('../modules/address/handlers/api_handler');
 const mongoConnectionPooling = require('../helpers/databases/mongodb/connection');
-// const jwt = require('../auth/jwt_auth_helper');
+const jwt = require('../auth/jwt_auth_helper');
 
 function AppServer() {
   this.server = restify.createServer({
@@ -42,13 +42,14 @@ function AppServer() {
 
   // authenticated client can access the end point, place code bellow
   this.server.post('/users/v1/register', basicAuth.isAuthenticated, userHandler.createUser);
+  this.server.post('/users/v1/verify-register', basicAuth.isAuthenticated, userHandler.verifyOtpRegister);
   this.server.post('/users/v1/login', basicAuth.isAuthenticated, userHandler.loginUser);
   this.server.post('/users/v1/verify-login', basicAuth.isAuthenticated, userHandler.verifyOtpLogin);
-  this.server.post('/users/v1', basicAuth.isAuthenticated, userHandler.createUser);
-  this.server.get('/users/v1', basicAuth.isAuthenticated, userHandler.getUsers);
-  this.server.get('/users/v1/:userId', basicAuth.isAuthenticated, userHandler.getUser);
-  this.server.put('/users/v1/update/:userId', basicAuth.isAuthenticated, userHandler.updateUser);
-  this.server.del('/users/v1/:userId', basicAuth.isAuthenticated, userHandler.deleteUser);
+  // this.server.post('/users/v1', basicAuth.isAuthenticated, userHandler.createUser); move to register
+  this.server.get('/users/v1', jwt.verifyToken , userHandler.getUsers);
+  this.server.get('/users/v1/:userId', jwt.verifyToken, userHandler.getUser);
+  this.server.put('/users/v1/update/:userId', jwt.verifyToken, userHandler.updateUser);
+  this.server.del('/users/v1/:userId', jwt.verifyToken, userHandler.deleteUser);
 
   // address
   this.server.post('/addresses/v1', basicAuth.isAuthenticated, addressHandler.createAddress);
