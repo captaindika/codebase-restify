@@ -85,6 +85,33 @@ class User {
     return wrapper.error(new BadRequestError('Otp not match'));
   }
 
+  async verifyOtpRegister(data) {
+    const ctx = 'verifyOtpRegister';
+    const checkUser = await this.query.findOneUser({ userId: data.userId});
+    if (checkUser.err) {
+      logger.error(ctx, 'error', 'User not found', checkUser.err);
+      return wrapper.error(new NotFoundError('User not found'));
+    }
+    const getOtp = await redisClient.getData(`OTP-REGISTER:${data.userId}`);
+    if (validate.isEmpty(getOtp) || validate.isEmpty(getOtp.data)) {
+      logger.log(ctx, 'fail', 'Otp has been expired');
+      const errData = {
+        message: 'Otp has been expired',
+        code: 1006
+      };
+      return wrapper.error(new BadRequestError(errData));
+    }
+    const otpTemp = JSON.parse(getOtp.data);
+    if (data.otp === otpTemp.data) {
+      delete checkUser.data.password;
+      redisClient.deleteKey(`OTP-REGISTER:${data.userId}`);
+      logger.log(ctx, checkUser.data, 'Verify Otp Success');
+      return wrapper.data(checkUser.data, 'Verify Otp Success', 200);
+    }
+    logger.log(ctx, 'fail', 'Otp not match');
+    return wrapper.error(new BadRequestError('Otp not match'));
+  }
+
   async getUsers() {
     const ctx = 'getUsers';
     const user = await this.query.findUsers({});
