@@ -7,6 +7,19 @@ const logger = require('../../../../helpers/utils/logger');
 const { BadRequestError, InternalServerError } = require('../../../../helpers/error');
 const uuidv4 = require('uuid/v4');
 const common = require('../../utils/common');
+const Redis = require('../../../../helpers/databases/redis/redis');
+const configAll = require('../../../../infra/configs/global_config');
+const producer = require('../../../../helpers/events/kafka/kafka_producer');
+
+const REDIS_CLIENT_CONFIGURATION = {
+  connection: {
+    host: configAll.get('/redisHost'),
+    port: configAll.get('/redisPort'),
+    password: configAll.get('/redisPassword')
+  },
+  index: configAll.get('/redisIndex')
+};
+const redisClient = new Redis(REDIS_CLIENT_CONFIGURATION);
 
 class User {
 
@@ -36,6 +49,23 @@ class User {
         logger.error(ctx,'error', 'Internal server error', saveUser.err);
         return wrapper.error(new InternalServerError('Internal server error'));
       }
+      const otp = await common.getOtp(4);
+      const dataToKafka = {
+        topic: 'otp-register-codebase',
+        attributes: 1,
+        body: {
+          email: user.email,
+          otp: otp,
+          mobileNumber: user.mobileNumber,
+          userId: user.userId,
+          fullName : user.fullName,
+          type: 'EMAIL'
+        },
+        partition: 1
+      };
+      const userku = user.userId;
+      await redisClient.setDataEx(`OTP-REGISTER:${userku}`, otp, 24 * 60 * 60);
+      await producer.kafkaSendProducer(dataToKafka);
       delete user.password;
       logger.info(ctx, 'success', 'Create user success', user);
       return wrapper.data(user, 'Create user success', 100);

@@ -1,4 +1,3 @@
-
 const Query = require('./query');
 const wrapper = require('../../../../helpers/utils/wrapper');
 const { NotFoundError, BadRequestError } = require('../../../../helpers/error');

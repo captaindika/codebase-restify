@@ -1,6 +1,6 @@
 const Address = require('../../../../../../bin/modules/address/repositories/commands/domain');
 const command = require('../../../../../../bin/modules/address/repositories/commands/command');
-const query = require('../../../../../../bin/modules/address/repositories/queries/query');
+// const query = require('../../../../../../bin/modules/address/repositories/queries/query');
 const sinon = require('sinon');
 const assert = require('assert');
 const logger = require('../../../../../../bin/helpers/utils/logger');
