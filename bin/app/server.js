@@ -6,6 +6,7 @@ const wrapper = require('../helpers/utils/wrapper');
 const userHandler = require('../modules/user/handlers/api_handler');
 const addressHandler = require('../modules/address/handlers/api_handler');
 const mongoConnectionPooling = require('../helpers/databases/mongodb/connection');
+// const jwt = require('../auth/jwt_auth_helper');
 
 function AppServer() {
   this.server = restify.createServer({
@@ -40,6 +41,7 @@ function AppServer() {
   });
 
   // authenticated client can access the end point, place code bellow
+  this.server.post('/users/v1/register', basicAuth.isAuthenticated, userHandler.createUser);
   this.server.post('/users/v1/login', basicAuth.isAuthenticated, userHandler.loginUser);
   this.server.post('/users/v1/verify-login', basicAuth.isAuthenticated, userHandler.verifyOtpLogin);
   this.server.post('/users/v1', basicAuth.isAuthenticated, userHandler.createUser);
